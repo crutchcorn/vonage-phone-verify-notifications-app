@@ -1,14 +1,51 @@
 import * as React from 'react';
-import {Image, StyleSheet, TextInput, View, Text, Button} from "react-native";
-import VonageImg from "./assets/vonageHeader.png";
+import {Image, StyleSheet, TextInput, View, Text, Button, ActivityIndicator} from "react-native";
+import VonageImg from "../assets/vonageHeader.png";
+import {request, verify} from "./services";
 
-export const SignInScreen = () => {
+export const SignInScreen = ({signIn}) => {
     const [phoneNumber, setPhoneNumber] = React.useState('');
     const [confirmationPin, setConfirmationPin] = React.useState('');
     const [showConfirmScreen, setShowConfirmScreen] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(false);
+    const [requestId, setRequestId] = React.useState('');
 
     const submitPhoneNumber = () => {
-        setShowConfirmScreen(true);
+        setIsLoading(true);
+        request({phoneNumber})
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                setRequestId(data.requestId)
+                setShowConfirmScreen(true);
+                setIsLoading(false);
+            })
+            .catch(e => {
+                console.error(e);
+                setIsLoading(false);
+            })
+    }
+
+    const submitPin = () => {
+        setIsLoading(true);
+        verify({code: confirmationPin, requestId})
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.status === "0") {
+                    signIn();
+                }
+                setIsLoading(false);
+            })
+            .catch(e => {
+                console.error(e);
+                setIsLoading(false);
+            })
+    }
+
+    const cancel = () => {
+        setRequestId('')
+        setShowConfirmScreen(false);
     }
 
     const EnterPhoneNumber = <>
@@ -22,7 +59,7 @@ export const SignInScreen = () => {
             value={phoneNumber}
             style={styles.textInput}
         />
-        <Button title={"Submit"} onPress={submitPhoneNumber}/>
+        <Button title={"Submit"} color={"black"} onPress={submitPhoneNumber}/>
     </>
 
     const ConfirmNumber = <>
@@ -36,14 +73,18 @@ export const SignInScreen = () => {
             value={confirmationPin}
             style={styles.textInput}
         />
-        <Button title={"Verify"}/>
+        <Button title={"Verify"} color={"black"} onPress={submitPin}/>
+        <View style={{marginTop: 16}}>
+            <Button title={"Cancel"} color={"#8e8f8f"} onPress={cancel}/>
+        </View>
     </>
 
     return (
         <View style={styles.container}>
             <Image source={VonageImg} style={styles.logo} resizeMode={"contain"}/>
             <View style={styles.bodyContainer}>
-                {showConfirmScreen ? ConfirmNumber : EnterPhoneNumber}
+                {isLoading ? <ActivityIndicator size="large" color="#0000ff"/>
+                    : showConfirmScreen ? ConfirmNumber : EnterPhoneNumber}
                 <View style={styles.filler}/>
                 <Text style={styles.footerText}>The Vonage logo and name are fully owned by the Vonage company. This app
                     is simply a demo app and does not reflect the company in any manner</Text>

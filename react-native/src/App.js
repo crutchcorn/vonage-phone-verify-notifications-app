@@ -50,14 +50,19 @@ const App = () => {
                 setIsAuthed(true);
             }
         });
-
     }, [])
+
+    const signIn = () => {
+        DefaultPreference.set(AUTH_STORAGE_KEY, true).then(val => {
+            setIsAuthed(true)
+        });
+    }
 
     return (
         <>
             <StatusBar barStyle="dark-content"/>
             <SafeAreaView>
-                {isAuthed ? <IsAuthedScreen/> : <SignInScreen/>}
+                {isAuthed ? <IsAuthedScreen/> : <SignInScreen signIn={signIn}/>}
             </SafeAreaView>
         </>
     );

@@ -5,20 +5,13 @@ import {
     Button,
     StatusBar,
     PermissionsAndroid,
-    View,
+    View
 } from 'react-native';
 import {selectContactPhone} from 'react-native-select-contact';
 import DefaultPreference from 'react-native-default-preference';
+import {SignInScreen} from "./sign-in-screen";
 
 const AUTH_STORAGE_KEY = 'isAuthed';
-
-const AuthScreen = () => {
-    return (
-        <View>
-            <Text>Hello</Text>
-        </View>
-    )
-}
 
 const IsAuthedScreen = () => {
     return (
@@ -54,7 +47,7 @@ const App = () => {
     React.useEffect(() => {
         DefaultPreference.get(AUTH_STORAGE_KEY).then(val => {
             if (`${val}` === 'true') {
-
+                setIsAuthed(true);
             }
         });
 
@@ -64,7 +57,7 @@ const App = () => {
         <>
             <StatusBar barStyle="dark-content"/>
             <SafeAreaView>
-                {isAuthed ? <IsAuthedScreen/> : <AuthScreen/>}
+                {isAuthed ? <IsAuthedScreen/> : <SignInScreen/>}
             </SafeAreaView>
         </>
     );

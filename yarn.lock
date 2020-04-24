@@ -5198,6 +5198,22 @@ react-is@^16.12.0, react-is@^16.8.1, react-is@^16.8.4, react-is@^16.8.6:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
+react-native-action-sheet@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-action-sheet/-/react-native-action-sheet-2.2.0.tgz#309a87f53bf4e7b17fdd9d24b10b8dcbaebb7230"
+  integrity sha512-4lsuxH+Cn3/aUEs1VCwqvLhEFyXNqYTkT67CzgTwlifD9Ij4OPQAIs8D+HUD9zBvWc4NtT6cyG1lhArPVMQeVw==
+
+react-native-default-preference@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/react-native-default-preference/-/react-native-default-preference-1.4.2.tgz#0c0b36c0dd2f01413e7fc32f98363e19b39d4166"
+  integrity sha512-kNhBLv8s6kO2gJJFEKM7qew7oRvJnygjgG1CU2ZEY6SlG5qsRX8z1Ms7z1Oo/XB7fVfyXrAoZDGhIvy+uiByrg==
+
+"react-native-select-contact@https://github.com/bell-steven/react-native-select-contact.git#revampAndroidFiles":
+  version "1.3.2"
+  resolved "https://github.com/bell-steven/react-native-select-contact.git#1594509d0cf316d16fbc2deef4c0a3423ab39e9d"
+  optionalDependencies:
+    react-native-action-sheet "^2.2.0"
+
 react-native@0.62.2:
   version "0.62.2"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.62.2.tgz#d831e11a3178705449142df19a70ac2ca16bad10"

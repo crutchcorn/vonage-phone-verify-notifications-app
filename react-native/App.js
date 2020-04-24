@@ -1,114 +1,79 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
 import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
+    SafeAreaView,
+    StyleSheet,
+    Button,
+    StatusBar,
+    PermissionsAndroid,
+    View,
 } from 'react-native';
+import {selectContactPhone} from 'react-native-select-contact';
+import DefaultPreference from 'react-native-default-preference';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const AUTH_STORAGE_KEY = 'isAuthed';
 
-const App: () => React$Node = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  );
+const AuthScreen = () => {
+    return (
+        <View>
+            <Text>Hello</Text>
+        </View>
+    )
+}
+
+const IsAuthedScreen = () => {
+    return (
+        <View style={styles.button}>
+            <Button
+                onPress={() => {
+                    selectContactPhone().then(selection => {
+                        console.log('selection', selection)
+                    })
+                }}
+                title={"Pick a contact to invite"}/>
+        </View>
+    )
+}
+
+const App = () => {
+    const [isAuthed, setIsAuthed] = React.useState(false);
+
+    /**
+     * Ask permissions to read from contacts
+     */
+    React.useEffect(() => {
+        const askedPermission = PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+        );
+        askedPermission.then(() => {
+        })
+    }, []);
+
+    /**
+     * Check if user has logged in
+     */
+    React.useEffect(() => {
+        DefaultPreference.get(AUTH_STORAGE_KEY).then(val => {
+            if (`${val}` === 'true') {
+
+            }
+        });
+
+    }, [])
+
+    return (
+        <>
+            <StatusBar barStyle="dark-content"/>
+            <SafeAreaView>
+                {isAuthed ? <IsAuthedScreen/> : <AuthScreen/>}
+            </SafeAreaView>
+        </>
+    );
 };
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
+    button: {
+        marginTop: 150
+    }
 });
 
 export default App;

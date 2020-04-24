@@ -1,16 +1,23 @@
 const Nexmo = require('nexmo');
 const express = require('express')
+const bodyParser = require('body-parser')
 const app = express()
 const port = process.env.PORT || 3000
 
-app.use(express.json())
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json())
+
+const nexmo = new Nexmo({
+    apiKey: process.env.NEXMO_API_KEY,
+    apiSecret: process.env.NEXMO_API_SECRET,
+});
 
 app.post('/request', (req, res) => {
     if (!req.body.number) {
         res.status(400).send({message: "You must supply a `number` prop to send the request to"})
         return;
     }
-    Nexmo.verify.request({
+    nexmo.verify.request({
         number: req.body.number,
         brand: 'Vonage Demo App',
         code_length: '4'
@@ -28,7 +35,7 @@ app.post('/verify', (req, res) => {
         res.status(400).send({message: "You must supply a `code` and `request_id` prop to send the request to"})
         return;
     }
-    Nexmo.verify.check({
+    nexmo.verify.check({
         request_id: req.body.requestId,
         code: req.body.code
     }, (err, result) => {

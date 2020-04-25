@@ -2,33 +2,18 @@ import React from 'react';
 import {
     SafeAreaView,
     StyleSheet,
-    Button,
     StatusBar,
     PermissionsAndroid,
     View,
     Image,
     Text
 } from 'react-native';
-import {selectContactPhone} from 'react-native-select-contact';
 import DefaultPreference from 'react-native-default-preference';
 import {SignInScreen} from "./sign-in-screen";
 import VonageImg from "../assets/vonageHeader.png";
+import {InviteScreen} from "./invite-screen";
 
 const AUTH_STORAGE_KEY = 'isAuthed';
-
-const IsAuthedScreen = () => {
-    return (
-        <View style={styles.button}>
-            <Button
-                onPress={() => {
-                    selectContactPhone().then(selection => {
-                        console.log('selection', selection)
-                    })
-                }}
-                title={"Pick a contact to invite"}/>
-        </View>
-    )
-}
 
 const App = () => {
     const [isAuthed, setIsAuthed] = React.useState(false);
@@ -68,7 +53,7 @@ const App = () => {
                 <View style={styles.container}>
                     <Image source={VonageImg} style={styles.logo} resizeMode={"contain"}/>
                     <View style={styles.bodyContainer}>
-                        {isAuthed ? <IsAuthedScreen/> : <SignInScreen signIn={signIn}/>}
+                        {isAuthed ? <InviteScreen/> : <SignInScreen signIn={signIn}/>}
                         <View style={styles.filler}/>
                         <Text style={styles.footerText}>The Vonage logo and name are fully owned by the Vonage company.
                             This app

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {StyleSheet, TextInput, View, Text, Button, ActivityIndicator} from "react-native";
+import {TextInput, View, Text, Button, ActivityIndicator} from "react-native";
 import {request, verify} from "./services";
 import {sharedStyles} from "./constants";
 
@@ -79,10 +79,11 @@ export const SignInScreen = ({signIn}) => {
         </View>
     </>
 
-    return (
-        <>{isLoading ? <ActivityIndicator size="large" color="#0000ff"/>
-            : showConfirmScreen ? ConfirmNumber : EnterPhoneNumber}</>
-    )
+    if (isLoading) {
+        return <ActivityIndicator size="large" color="#0000ff"/>;
+    }
+
+    return showConfirmScreen ? ConfirmNumber : EnterPhoneNumber;
 }
 
 

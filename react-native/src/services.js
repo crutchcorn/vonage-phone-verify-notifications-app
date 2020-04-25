@@ -29,3 +29,16 @@ export const verify = ({
         })
     })
 };
+
+
+export const invite = ({
+                           phoneNumber,
+                       }) => {
+    return fetch(`${SERVER_BASE}/invite`, {
+        method: 'post',
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            number: phoneNumber
+        })
+    })
+};

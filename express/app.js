@@ -7,6 +7,8 @@ const port = process.env.PORT || 3000
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json())
 
+const nexmoNumber = process.env.NEXMO_NUMBER;
+
 const nexmo = new Nexmo({
     apiKey: process.env.NEXMO_API_KEY,
     apiSecret: process.env.NEXMO_API_SECRET,
@@ -44,6 +46,30 @@ app.post('/verify', (req, res) => {
         }
         res.send(result);
     });
+})
+
+app.post('/invite', (req, res) => {
+    if (!req.body.number) {
+        res.status(400).send({message: "You must supply a `number` prop to send the request to"})
+        return;
+    }
+    const message = {
+        content: {
+            type: 'text',
+            text: 'You\'re invited to use the hot new app! Details here:',
+        },
+    };
+    nexmo.channel.send(
+        {type: 'sms', number: req.body.number},
+        {type: 'sms', number: nexmoNumber},
+        message,
+        (err, data) => {
+            if (err) {
+                res.status(500, err.detail);
+            }
+            res.send(data);
+        },
+    );
 })
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))

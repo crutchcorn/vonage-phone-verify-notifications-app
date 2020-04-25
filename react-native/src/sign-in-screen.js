@@ -1,7 +1,7 @@
 import * as React from 'react';
-import {Image, StyleSheet, TextInput, View, Text, Button, ActivityIndicator} from "react-native";
-import VonageImg from "../assets/vonageHeader.png";
+import {StyleSheet, TextInput, View, Text, Button, ActivityIndicator} from "react-native";
 import {request, verify} from "./services";
+import {sharedStyles} from "./constants";
 
 export const SignInScreen = ({signIn}) => {
     const [phoneNumber, setPhoneNumber] = React.useState('');
@@ -80,64 +80,10 @@ export const SignInScreen = ({signIn}) => {
     </>
 
     return (
-        <View style={styles.container}>
-            <Image source={VonageImg} style={styles.logo} resizeMode={"contain"}/>
-            <View style={styles.bodyContainer}>
-                {isLoading ? <ActivityIndicator size="large" color="#0000ff"/>
-                    : showConfirmScreen ? ConfirmNumber : EnterPhoneNumber}
-                <View style={styles.filler}/>
-                <Text style={styles.footerText}>The Vonage logo and name are fully owned by the Vonage company. This app
-                    is simply a demo app and does not reflect the company in any manner</Text>
-            </View>
-        </View>
+        <>{isLoading ? <ActivityIndicator size="large" color="#0000ff"/>
+            : showConfirmScreen ? ConfirmNumber : EnterPhoneNumber}</>
     )
 }
 
 
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: 'white',
-        height: '100%',
-        padding: 16,
-        display: 'flex',
-        flexDirection: 'column'
-    },
-    logo: {
-        height: 40,
-        width: 153,
-        marginBottom: 16,
-    },
-    bodyContainer: {
-        backgroundColor: '#f3f3f5',
-        borderRadius: 6,
-        padding: 16,
-        flexGrow: 1,
-    },
-    textInput: {
-        borderWidth: 1,
-        borderColor: '#c2c4cc',
-        backgroundColor: '#e1e2e6',
-        borderRadius: 4,
-        paddingHorizontal: 8,
-        marginBottom: 16,
-    },
-    header: {
-        fontSize: 22,
-    },
-    body: {
-        marginTop: 8,
-        marginBottom: 16,
-        fontSize: 16,
-        lineHeight: 22,
-        color: 'rgba(0,0,0,0.4)'
-    },
-    filler: {
-        flexGrow: 1,
-    },
-    footerText: {
-        fontSize: 14,
-        alignSelf: 'center',
-        textAlign: 'center',
-        color: 'rgba(0,0,0,0.3)'
-    }
-});
+const styles = sharedStyles;

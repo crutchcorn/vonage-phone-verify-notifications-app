@@ -53,22 +53,23 @@ app.post('/invite', (req, res) => {
         res.status(400).send({message: "You must supply a `number` prop to send the request to"})
         return;
     }
-    const message = {
-        content: {
-            type: 'text',
-            text: 'You\'re invited to use the hot new app! Details here:',
-        },
-    };
-    nexmo.channel.send(
-        {type: 'sms', number: req.body.number},
-        {type: 'sms', number: nexmoNumber},
-        message,
+    const text = 'You\'re invited to use the hot new app! Details here:';
+    const from = nexmoNumber;
+    const to = req.body.number.replace(/[^\d]/g, '');
+
+    nexmo.message.sendSms(
+        from,
+        to,
+        text,
+        {},
         (err, data) => {
             if (err) {
-                res.status(500, err.detail);
+                const message = err.message || err;
+                res.status(500).send({message});
+                return;
             }
             res.send(data);
-        },
+        }
     );
 })
 

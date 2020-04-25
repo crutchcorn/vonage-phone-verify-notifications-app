@@ -1,10 +1,10 @@
 import * as React from 'react';
-import {Text, Button, ActivityIndicator} from "react-native";
+import {Text, Button, ActivityIndicator, View} from "react-native";
 import {invite} from "./services";
 import {sharedStyles} from "./constants";
 import {selectContactPhone} from "react-native-select-contact";
 
-export const InviteScreen = () => {
+export const InviteScreen = ({logout}) => {
     const [didInviteSomeone, setDidInviteSomeone] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
 
@@ -30,6 +30,9 @@ export const InviteScreen = () => {
                 to your friends to invite them to join you on the platform! Simply select a contact and we'll take care of the rest</Text>
             <Button title={"Pick a contact to invite"} color={"black"} onPress={invitePhoneNumber}/>
             {!!didInviteSomeone && <Text style={styles.body}>An invite has been sent to the selected contact!</Text>}
+            <View style={{marginTop: 16}}>
+                <Button title={"Sign Out"} color={"#8e8f8f"} onPress={logout}/>
+            </View>
         </>
     )
 }

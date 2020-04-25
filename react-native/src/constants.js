@@ -1,6 +1,6 @@
 import {StyleSheet} from "react-native";
 
-export const SERVER_BASE = 'http://497eec3c.ngrok.io'
+export const SERVER_BASE = 'http://c9167a83.ngrok.io'
 
 export const sharedStyles  = StyleSheet.create({
     textInput: {

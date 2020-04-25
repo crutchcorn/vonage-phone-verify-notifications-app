@@ -41,8 +41,14 @@ const App = () => {
     }, [])
 
     const signIn = () => {
-        DefaultPreference.set(AUTH_STORAGE_KEY, true).then(val => {
+        DefaultPreference.set(AUTH_STORAGE_KEY, `true`).then(val => {
             setIsAuthed(true)
+        });
+    }
+
+    const logout = () => {
+        DefaultPreference.set(AUTH_STORAGE_KEY, `false`).then(val => {
+            setIsAuthed(false)
         });
     }
 
@@ -53,7 +59,7 @@ const App = () => {
                 <View style={styles.container}>
                     <Image source={VonageImg} style={styles.logo} resizeMode={"contain"}/>
                     <View style={styles.bodyContainer}>
-                        {isAuthed ? <InviteScreen/> : <SignInScreen signIn={signIn}/>}
+                        {isAuthed ? <InviteScreen logout={logout}/> : <SignInScreen signIn={signIn}/>}
                         <View style={styles.filler}/>
                         <Text style={styles.footerText}>The Vonage logo and name are fully owned by the Vonage company.
                             This app

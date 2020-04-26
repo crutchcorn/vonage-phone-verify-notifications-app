@@ -1,26 +1,16 @@
 import * as React from 'react';
-import {Text, Button, ActivityIndicator, View} from "react-native";
-import {invite} from "./services";
+import {Text, Button, View} from "react-native";
 import {sharedStyles} from "./constants";
 import {selectContactPhone} from "react-native-select-contact";
 
 export const InviteScreen = ({logout}) => {
     const [didInviteSomeone, setDidInviteSomeone] = React.useState(false);
-    const [isLoading, setIsLoading] = React.useState(false);
 
     const invitePhoneNumber = async () => {
         setDidInviteSomeone(false);
         const selection = await selectContactPhone();
         if (!selection) return;
-        const phoneNumber = selection.selectedPhone.number
-        setIsLoading(true);
-        await invite({phoneNumber})
-        setIsLoading(false);
         setDidInviteSomeone(true);
-    }
-
-    if (isLoading) {
-        return <ActivityIndicator size="large" color="#0000ff"/>;
     }
 
     return (

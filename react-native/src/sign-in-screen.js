@@ -1,50 +1,21 @@
 import * as React from 'react';
-import {TextInput, View, Text, Button, ActivityIndicator} from "react-native";
-import {request, verify} from "./services";
+import {TextInput, View, Text, Button} from "react-native";
 import {sharedStyles} from "./constants";
 
 export const SignInScreen = ({signIn}) => {
     const [phoneNumber, setPhoneNumber] = React.useState('');
     const [confirmationPin, setConfirmationPin] = React.useState('');
     const [showConfirmScreen, setShowConfirmScreen] = React.useState(false);
-    const [isLoading, setIsLoading] = React.useState(false);
-    const [requestId, setRequestId] = React.useState('');
 
     const submitPhoneNumber = () => {
-        setIsLoading(true);
-        request({phoneNumber})
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                setRequestId(data.requestId)
-                setShowConfirmScreen(true);
-                setIsLoading(false);
-            })
-            .catch(e => {
-                console.error(e);
-                setIsLoading(false);
-            })
+        setShowConfirmScreen(true);
     }
 
     const submitPin = () => {
-        setIsLoading(true);
-        verify({code: confirmationPin, requestId})
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                if (data.status === "0") {
-                    signIn();
-                }
-                setIsLoading(false);
-            })
-            .catch(e => {
-                console.error(e);
-                setIsLoading(false);
-            })
+        signIn();
     }
 
     const cancel = () => {
-        setRequestId('')
         setShowConfirmScreen(false);
     }
 
@@ -78,10 +49,6 @@ export const SignInScreen = ({signIn}) => {
             <Button title={"Cancel"} color={"#8e8f8f"} onPress={cancel}/>
         </View>
     </>
-
-    if (isLoading) {
-        return <ActivityIndicator size="large" color="#0000ff"/>;
-    }
 
     return showConfirmScreen ? ConfirmNumber : EnterPhoneNumber;
 }

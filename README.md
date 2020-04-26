@@ -1,4 +1,10 @@
-This project is a demo application written in React Native that communicates with an ExpressJS Node backend. It talks to [Vonage APIs](https://www.vonage.com/) in order to send text messages as a form of "account verification". The codebase does not actually contain any kind of auth to prevent further calls and there is no rate limiting on the server, so this code should not be used verbatim in production applications. As such, I have not deployed a server with the Express app or built an APK for general usage.
+This project is a demo application written in React Native. It showcases how you can enforce a "Phone number verification" component to your auth system using [Vonage APIs](https://www.vonage.com/). In order to enable this functionality in your app, there is a backend server written in NodeJS using Express.
+
+This app also contains functionality to send text messages to your contacts in order to invite them to use the app. This could be particularly useful if you're wanting to create a social aspect to your app
+
+> This codebase is meant as a showcase of how to integrate Vonage APIs into your own app. To keep the code unopinionated and minimally focused on the Vonage integration, the demo code does not have any actual authorization or functionality outside of demonstrating the APIs.
+>
+> Additionally, to keep my own API usage low, I've chosen not to deploy the server or the app. Instead, follow the instructions below to test the app yourself.
 
 # Testing the App
 

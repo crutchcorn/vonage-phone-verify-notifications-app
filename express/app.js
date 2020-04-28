@@ -25,7 +25,8 @@ app.post('/request', (req, res) => {
         code_length: '4'
     }, (err, result) => {
         if (err) {
-            res.status(500, err.error_text);
+            res.status(500).send(err.error_text);
+            return;
         }
         const requestId = result.request_id;
         res.send({requestId});
@@ -42,7 +43,8 @@ app.post('/verify', (req, res) => {
         code: req.body.code
     }, (err, result) => {
         if (err) {
-            res.status(500, err.error_text);
+            res.status(500).send(err.error_text);
+            return;
         }
         res.send(result);
     });
